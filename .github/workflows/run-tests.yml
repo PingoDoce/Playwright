@@ -28,12 +28,19 @@ jobs:
       - name: Run Maven tests in headless mode
         run: mvn clean test -Dheadless=true
 
-      - name: Generate and Publish Allure Report
+      # KROK 1: Tylko generowanie raportu do folderu 'allure-report'
+      - name: Generate Allure Report
         if: always()
         uses: simple-elf/allure-report-action@v1.7
         with:
           allure_results: target/allure-results
-          gh_pages: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          allure_report: allure-report # Nazwa folderu wyjściowego z raportem
+
+      # KROK 2: Publikowanie zawartości folderu 'allure-report' na gałęzi gh-pages
+      - name: Deploy report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report # Wskaż folder, który ma zostać opublikowany
 

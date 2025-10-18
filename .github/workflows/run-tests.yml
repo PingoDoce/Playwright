@@ -22,18 +22,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run Maven tests
-        run: mvn clean test
+      - name: Run Maven tests in headless mode
+        run: mvn clean test -Dheadless=true
 
       - name: Generate Allure Report
         if: always()
         uses: simple-elf/allure-report-action@v1.7
         with:
-          # Poprawna nazwa parametru wskazującego na wyniki Allure
-          allure_results: target/allure-results # <--- ZMIANA
-          
-          # Ta opcja mówi, gdzie umieścić wygenerowany raport HTML (możemy ją zostawić)
-          allure_report: allure-report
-          
-          # Ta opcja wskaże gałąź do publikacji raportu na GitHub Pages
+          allure_results: target/allure-results
           gh_pages: gh-pages

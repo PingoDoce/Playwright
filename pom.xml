@@ -9,135 +9,92 @@
 
     <properties>
         <java.version>21</java.version>
-
-        <!-- wersje w jednym miejscu -->
-        <playwright.version>1.55.0</playwright.version>
-        <allure.version>2.30.0</allure.version>
-        <junit.jupiter.version>5.13.4</junit.jupiter.version>
-        <junit.platform.version>1.13.4</junit.platform.version>
-
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-
-        <!-- Jawne ustawienie kodowania na UTF-8 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Wersje zależności -->
+        <playwright.version>1.44.0</playwright.version>
+        <junit.version>5.10.2</junit.version>
+        <allure.version>2.27.0</allure.version>
+        <aspectj.version>1.9.21</aspectj.version>
     </properties>
 
-    <!-- ===== dependencyManagement ===== -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.microsoft.playwright</groupId>
-                <artifactId>playwright</artifactId>
-                <version>${playwright.version}</version>
-            </dependency>
-
-            <!-- Krytyczne: spójny launcher 1.13.4 (nadpisze tranzytywny 1.9.2 z Allure) -->
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-launcher</artifactId>
-                <version>${junit.platform.version}</version>
-            </dependency>
-            <!-- Opcjonalnie: prosty binder SLF4J żeby uciszyć ostrzeżenie -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>2.0.13</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit.jupiter.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <!-- ===== dependencies (bez wersji) ===== -->
     <dependencies>
+        <!-- Playwright -->
         <dependency>
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
+            <version>${playwright.version}</version>
         </dependency>
 
-
-        <!-- JUnit Jupiter (API + Engine + Params) -->
+        <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
-        <!-- Allure JUnit 5 -->
+        <!-- Allure JUnit 5 Integration -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure.version}</version>
-        </dependency>
-
-        <!-- wymusza poprawny launcher na classpath (rozwiązuje "OutputDirectoryProvider not available") -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- Adnotacje @Step, @Attachment itp. -->
+        <!-- Zależność wymagana przez agenta Allure -->
         <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-java-commons</artifactId>
-            <version>${allure.version}</version>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.5</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>io.qameta.allure</groupId>
-                    <artifactId>allure-maven</artifactId>
-                    <version>2.11.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
 
+            <!-- =============================================== -->
+            <!-- KLUCZOWA ZMIANA: Konfiguracja wtyczki Surefire  -->
+            <!-- =============================================== -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
                 <configuration>
-                    <useModulePath>false</useModulePath>
+                    <!-- Aktywacja agenta Allure -->
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <!-- Definicja listenera Allure -->
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit5.AllureJunit5</value>
+                        </property>
+                    </properties>
+                    <!-- Ustawienie katalogu wyjściowego dla wyników Allure -->
                     <systemPropertyVariables>
-                        <allure.results.directory>allure-results</allure.results.directory>
-                        <headless>true</headless>
-                        <viewport>1920,1080</viewport>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
 
+            <!-- Wtyczka do generowania raportu Allure lokalnie (opcjonalna dla GitHub Actions) -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
             </plugin>
         </plugins>
     </build>

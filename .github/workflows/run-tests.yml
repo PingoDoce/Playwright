@@ -28,9 +28,12 @@ jobs:
       - name: Run Maven tests in headless mode
         run: mvn clean test -Dheadless=true
 
-      - name: Generate Allure Report
+      - name: Generate and Publish Allure Report
         if: always()
         uses: simple-elf/allure-report-action@v1.7
         with:
           allure_results: target/allure-results
           gh_pages: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

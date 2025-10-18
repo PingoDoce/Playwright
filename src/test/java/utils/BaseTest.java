@@ -39,6 +39,18 @@ public abstract class BaseTest {
         if (playwright != null) playwright.close();
     }
 
+    @BeforeEach
+    void beforeEach() {
+        page = context.newPage();
+    }
+
+    @AfterEach
+    void afterEach() {
+        if (page != null) {
+            page.close();
+        }
+    }
+
     @Attachment(value = "{screenshotName}", type = "image/png")
     public byte[] captureScreenshot(String screenshotName) {
         return page.screenshot(new Page.ScreenshotOptions().setFullPage(true));

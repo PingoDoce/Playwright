@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: tests.StatusCodesTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.978 s -- in tests.StatusCodesTest

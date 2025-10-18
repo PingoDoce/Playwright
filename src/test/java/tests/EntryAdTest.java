@@ -16,12 +16,12 @@ public class EntryAdTest extends BaseTest {
     public void initPage() {
         context.clearCookies(); // resetuje zachowanie modala
         entryAdPage = new EntryAdPage(page);
-        entryAdPage.open();
     }
 
     @Test
     @DisplayName("Modal powinien pojawić się po wejściu na stronę")
     public void testModalAppearsOnLoad() {
+        entryAdPage.open();
         entryAdPage.waitForModalToAppear();
         assertTrue(entryAdPage.isModalVisible(), "Modal powinien być widoczny po załadowaniu strony.");
     }
@@ -29,6 +29,7 @@ public class EntryAdTest extends BaseTest {
     @Test
     @DisplayName("Modal powinien się zamknąć po kliknięciu przycisku")
     public void testModalCanBeClosed() {
+        entryAdPage.open();
         entryAdPage.waitForModalToAppear();
         entryAdPage.closeModal();
         assertFalse(entryAdPage.isModalVisible(), "Modal powinien zostać zamknięty.");
@@ -37,6 +38,7 @@ public class EntryAdTest extends BaseTest {
     @Test
     @DisplayName("Tytuł modala powinien być poprawny")
     public void testModalContent() {
+        entryAdPage.open();
         entryAdPage.waitForModalToAppear();
         String title = entryAdPage.getModalTitle();
         assertTrue(title.equalsIgnoreCase("This is a modal window"), "Tytuł modala powinien być zgodny.");

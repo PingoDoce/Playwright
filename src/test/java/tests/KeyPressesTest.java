@@ -1,6 +1,5 @@
 package tests;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.KeyPressesPage;
@@ -14,16 +13,11 @@ public class KeyPressesTest extends BaseTest {
     @BeforeEach
     public void setupTest() {
         keyPressesPage = new KeyPressesPage(page);
-        keyPressesPage.open();
-    }
-
-    @AfterEach
-    public void cleanupTest() {
-        // BaseTest handles context/page closing & screenshotting
     }
 
     @Test
     public void testKeyPressA() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("A");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("A"), "Expected result to contain 'A'");
@@ -31,6 +25,7 @@ public class KeyPressesTest extends BaseTest {
 
     @Test
     public void testKeyPressEscape() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("Escape");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("ESCAPE"), "Expected result to contain 'ESCAPE'");
@@ -38,6 +33,7 @@ public class KeyPressesTest extends BaseTest {
 
     @Test
     public void testKeyPressShift() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("Shift");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("SHIFT"), "Expected result to contain 'SHIFT'");
@@ -45,6 +41,7 @@ public class KeyPressesTest extends BaseTest {
 
     @Test
     public void testKeyPressAlt() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("Alt");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("ALT"), "Expected result to contain 'ALT'");
@@ -52,6 +49,7 @@ public class KeyPressesTest extends BaseTest {
 
     @Test
     public void testKeyPressTab() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("Tab");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("TAB"), "Expected result to contain 'TAB'");
@@ -59,6 +57,7 @@ public class KeyPressesTest extends BaseTest {
 
     @Test
     public void testKeyPressSpace() {
+        keyPressesPage.open();
         keyPressesPage.typeKey("Space");
         String result = keyPressesPage.getResult();
         assertTrue(result.contains("SPACE"), "Expected result to contain 'SPACE'");

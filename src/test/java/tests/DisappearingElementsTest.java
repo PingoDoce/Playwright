@@ -20,9 +20,7 @@ public class DisappearingElementsTest extends BaseTest {
 
     @BeforeEach
     public void openPage() {
-        page.navigate("https://the-internet.herokuapp.com/disappearing_elements");
         pageObject = new DisappearingElementsPage(page);
-        logStep("Otwórz stronę Disappearing Elements");
     }
 
     @Test
@@ -30,6 +28,8 @@ public class DisappearingElementsTest extends BaseTest {
     @Story("Sprawdzenie liczby linków")
     @Description("Sprawdza, czy liczba linków w menu to 4 lub 5")
     public void testNumberOfLinks() {
+        logStep("Otwórz stronę Disappearing Elements");
+        page.navigate("https://the-internet.herokuapp.com/disappearing_elements");
         int size = pageObject.getNavigationLinks().count();
         captureScreenshot("Stan menu");
         assertTrue(size == 4 || size == 5, "Menu powinno zawierać 4 lub 5 linków, obecnie: " + size);
@@ -40,6 +40,8 @@ public class DisappearingElementsTest extends BaseTest {
     @Story("Sprawdzenie obecności linku Gallery")
     @Description("Sprawdza, czy link 'Gallery' pojawia się w menu po kilku odświeżeniach")
     public void testGalleryLinkAppearsEventually() {
+        logStep("Otwórz stronę Disappearing Elements");
+        page.navigate("https://the-internet.herokuapp.com/disappearing_elements");
         boolean found = false;
 
         for (int i = 0; i < 10; i++) {
@@ -59,6 +61,8 @@ public class DisappearingElementsTest extends BaseTest {
     @Story("Klikalność linków")
     @Description("Kliknij każdy dostępny link i wróć, aby sprawdzić działanie")
     public void testEachLinkIsClickable() {
+        logStep("Otwórz stronę Disappearing Elements");
+        page.navigate("https://the-internet.herokuapp.com/disappearing_elements");
         Set<String> testedLinks = new HashSet<>();
 
         List<String> texts = pageObject.getNavigationLinks().allInnerTexts();

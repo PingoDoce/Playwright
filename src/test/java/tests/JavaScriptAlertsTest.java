@@ -12,11 +12,11 @@ public class JavaScriptAlertsTest extends BaseTest {
     @BeforeEach
     public void setUpTest() {
         alertsPage = new JavaScriptAlertsPage(page);
-        alertsPage.open();
     }
 
     @Test
     public void testJsAlertAccept() {
+        alertsPage.open();
         page.onceDialog(dialog -> dialog.accept());
         alertsPage.triggerJsAlert();
         assertEquals("You successfully clicked an alert", alertsPage.getResultText());
@@ -24,6 +24,7 @@ public class JavaScriptAlertsTest extends BaseTest {
 
     @Test
     public void testJsConfirmAccept() {
+        alertsPage.open();
         page.onceDialog(dialog -> dialog.accept());
         alertsPage.triggerJsConfirm();
         assertEquals("You clicked: Ok", alertsPage.getResultText());
@@ -31,6 +32,7 @@ public class JavaScriptAlertsTest extends BaseTest {
 
     @Test
     public void testJsConfirmDismiss() {
+        alertsPage.open();
         page.onceDialog(dialog -> dialog.dismiss());
         alertsPage.triggerJsConfirm();
         assertEquals("You clicked: Cancel", alertsPage.getResultText());
@@ -38,6 +40,7 @@ public class JavaScriptAlertsTest extends BaseTest {
 
     @Test
     public void testJsPromptInput() {
+        alertsPage.open();
         String input = "Playwright Test";
         page.onceDialog(dialog -> dialog.accept(input));
         alertsPage.triggerJsPrompt();
@@ -46,6 +49,7 @@ public class JavaScriptAlertsTest extends BaseTest {
 
     @Test
     public void testJsPromptCancel() {
+        alertsPage.open();
         page.onceDialog(dialog -> dialog.dismiss());
         alertsPage.triggerJsPrompt();
         assertEquals("You entered: null", alertsPage.getResultText());

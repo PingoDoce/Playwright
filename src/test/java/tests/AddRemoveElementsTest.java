@@ -12,36 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddRemoveElementsTest {
 
-    static Playwright playwright;
-    static Browser browser;
-    BrowserContext context;
     Page page;
     AddRemoveElementsPage addRemoveElementsPage;
 
-    @BeforeAll
-    static void setupAll() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-        browser.close();
-        playwright.close();
-    }
 
     @BeforeEach
     public void setup() {
-        context = browser.newContext();
-        page = context.newPage();
-        logStep("Przejdź do strony Add/Remove Elements");
-        page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
         addRemoveElementsPage = new AddRemoveElementsPage(page);
-    }
-
-    @AfterEach
-    public void cleanup() {
-        context.close();
     }
 
     @Test
@@ -50,6 +27,8 @@ public class AddRemoveElementsTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Sprawdzenie, czy jedno kliknięcie przycisku 'Add Element' dodaje jeden przycisk 'Delete'")
     public void testAddOneElement() {
+        logStep("Przejdź do strony Add/Remove Elements");
+        page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
         logStep("Kliknij 'Add Element'");
         addRemoveElementsPage.clickAddElement();
 
@@ -65,6 +44,8 @@ public class AddRemoveElementsTest {
     @Severity(SeverityLevel.NORMAL)
     @Description("Sprawdzenie dodawania wielu przycisków 'Delete'")
     public void testAddMultipleElements() {
+        logStep("Przejdź do strony Add/Remove Elements");
+        page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
         int clicks = 5;
         logStep("Kliknij 'Add Element' " + clicks + " razy");
         for (int i = 0; i < clicks; i++) {
@@ -83,6 +64,8 @@ public class AddRemoveElementsTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Sprawdzenie, czy usunięcie elementu działa prawidłowo")
     public void testDeleteElement() {
+        logStep("Przejdź do strony Add/Remove Elements");
+        page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
         logStep("Dodaj 3 przyciski 'Delete'");
         for (int i = 0; i < 3; i++) {
             addRemoveElementsPage.clickAddElement();

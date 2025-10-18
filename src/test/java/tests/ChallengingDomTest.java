@@ -17,9 +17,7 @@ public class ChallengingDomTest extends BaseTest {
 
     @BeforeEach
     public void openPage() {
-        page.navigate("https://the-internet.herokuapp.com/challenging_dom");
         pageObject = new ChallengingDomPage(page);
-        logStep("Otwórz stronę Challenging DOM");
     }
 
     @Test
@@ -27,6 +25,8 @@ public class ChallengingDomTest extends BaseTest {
     @Story("Struktura tabeli")
     @Description("Sprawdza, czy tabela zawiera poprawną liczbę kolumn i co najmniej jeden wiersz")
     public void testTableStructure() {
+        logStep("Otwórz stronę Challenging DOM");
+        page.navigate("https://the-internet.herokuapp.com/challenging_dom");
         Locator headers = pageObject.getTableHeaders();
         Locator rows = pageObject.getTableRows();
 
@@ -39,6 +39,8 @@ public class ChallengingDomTest extends BaseTest {
     @Story("Dane w komórce tabeli")
     @Description("Sprawdza, czy komórka [0][0] zawiera dane")
     public void testFirstCellHasText() {
+        logStep("Otwórz stronę Challenging DOM");
+        page.navigate("https://the-internet.herokuapp.com/challenging_dom");
         String text = pageObject.getCellText(0, 0);
         assertNotNull(text);
         assertFalse(text.isEmpty(), "Komórka nie powinna być pusta");
@@ -49,6 +51,8 @@ public class ChallengingDomTest extends BaseTest {
     @Story("Kliknięcie przycisków u góry")
     @Description("Kliknij wszystkie trzy przyciski u góry strony")
     public void testHeaderButtonsClickable() {
+        logStep("Otwórz stronę Challenging DOM");
+        page.navigate("https://the-internet.herokuapp.com/challenging_dom");
         Locator buttons = pageObject.getHeaderButtons();
         assertEquals(3, buttons.count(), "Powinny być 3 przyciski");
 

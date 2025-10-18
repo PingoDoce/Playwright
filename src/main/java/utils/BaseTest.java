@@ -33,21 +33,6 @@ public abstract class BaseTest {
         );
     }
 
-    @BeforeEach
-    void setUp() {
-        page = context.newPage();
-        page.setDefaultTimeout(10_000);            // ~ WebDriverWait(10)
-        page.setDefaultNavigationTimeout(15_000);
-    }
-
-    @AfterEach
-    void tearDown() {
-        if (page != null) {
-            captureScreenshot("Final State");
-            page.close();
-        }
-    }
-
     @AfterAll
     void afterAll() {
         if (context != null) context.close();

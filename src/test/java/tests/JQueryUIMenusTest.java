@@ -12,11 +12,11 @@ public class JQueryUIMenusTest extends BaseTest {
     @BeforeEach
     public void setUp() {
         pageObject = new JQueryUIMenusPage(page);
-        pageObject.open();
     }
 
     @Test
     public void testPdfDownloadLink() {
+        pageObject.open();
         pageObject.hoverToDownloads();
         assertTrue(pageObject.isPdfVisible(), "PDF link should be visible");
         assertTrue(pageObject.getPdfHref().endsWith("menu.pdf"));
@@ -24,6 +24,7 @@ public class JQueryUIMenusTest extends BaseTest {
 
     @Test
     public void testCsvDownloadLink() {
+        pageObject.open();
         pageObject.hoverToDownloads();
         assertTrue(pageObject.isCsvVisible(), "CSV link should be visible");
         assertTrue(pageObject.getCsvHref().endsWith("menu.csv"));
@@ -31,6 +32,7 @@ public class JQueryUIMenusTest extends BaseTest {
 
     @Test
     public void testExcelDownloadLink() {
+        pageObject.open();
         pageObject.hoverToDownloads();
         assertTrue(pageObject.isExcelVisible(), "Excel link should be visible");
         assertTrue(pageObject.getExcelHref().endsWith("menu.xls"));

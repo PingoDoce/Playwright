@@ -16,9 +16,7 @@ public class CheckboxesTest extends BaseTest {
 
     @BeforeEach
     public void openPage() {
-        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         checkboxesPage = new CheckboxesPage(page);
-        logStep("Otwórz stronę Checkboxes");
     }
 
     @Test
@@ -26,6 +24,8 @@ public class CheckboxesTest extends BaseTest {
     @Story("Domyślny stan checkboxów")
     @Description("Sprawdza, że pierwszy checkbox jest odznaczony, a drugi zaznaczony")
     public void testDefaultState() {
+        logStep("Otwórz stronę Checkboxes");
+        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         assertFalse(checkboxesPage.isCheckboxSelected(0), "Checkbox 1 powinien być odznaczony");
         assertTrue(checkboxesPage.isCheckboxSelected(1), "Checkbox 2 powinien być zaznaczony");
     }
@@ -35,6 +35,8 @@ public class CheckboxesTest extends BaseTest {
     @Story("Zaznaczenie checkboxa")
     @Description("Zaznacz pierwszy checkbox i sprawdź stan")
     public void testCheckFirstCheckbox() {
+        logStep("Otwórz stronę Checkboxes");
+        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         checkboxesPage.checkCheckbox(0);
         assertTrue(checkboxesPage.isCheckboxSelected(0), "Checkbox 1 powinien być zaznaczony");
     }
@@ -44,6 +46,8 @@ public class CheckboxesTest extends BaseTest {
     @Story("Odznaczenie checkboxa")
     @Description("Odznacz drugi checkbox i sprawdź stan")
     public void testUncheckSecondCheckbox() {
+        logStep("Otwórz stronę Checkboxes");
+        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         checkboxesPage.uncheckCheckbox(1);
         assertFalse(checkboxesPage.isCheckboxSelected(1), "Checkbox 2 powinien być odznaczony");
     }
@@ -53,6 +57,8 @@ public class CheckboxesTest extends BaseTest {
     @Story("Zaznaczenie obu checkboxów")
     @Description("Zaznacz oba checkboxy i sprawdź ich stan")
     public void testCheckBothCheckboxes() {
+        logStep("Otwórz stronę Checkboxes");
+        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         checkboxesPage.checkCheckbox(0);
         checkboxesPage.checkCheckbox(1);
 
@@ -65,6 +71,8 @@ public class CheckboxesTest extends BaseTest {
     @Story("Odznaczenie obu checkboxów")
     @Description("Odznacz oba checkboxy i sprawdź ich stan")
     public void testUncheckBothCheckboxes() {
+        logStep("Otwórz stronę Checkboxes");
+        page.navigate("https://the-internet.herokuapp.com/checkboxes");
         checkboxesPage.uncheckCheckbox(0);
         checkboxesPage.uncheckCheckbox(1);
 
